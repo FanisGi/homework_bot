@@ -35,7 +35,7 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message: str) -> None:
-    """Отправляет сообщение в Telegram чат"""
+    """Отправляет сообщение в Telegram чат."""
     try:
         logging.info('Отправляем сообщение в телеграм')
         bot.send_message(TELEGRAM_CHAT_ID, message)
@@ -53,7 +53,7 @@ def send_message(bot, message: str) -> None:
 def get_api_answer(
     current_timestamp: int
 ) -> Dict[str, Union[List[Dict[str, Union[int, str]]], int]]:
-    """Делает запрос к единственному эндпоинту API-сервиса"""
+    """Делает запрос к единственному эндпоинту API-сервиса."""
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
 
@@ -79,7 +79,7 @@ def get_api_answer(
 def check_response(
     response: Dict[str, Union[List[Dict[str, Union[int, str]]], int]]
 ) -> List[Dict[str, Union[int, str]]]:
-    """Проверяет ответ API на корректность"""
+    """Проверяет ответ API на корректность."""
     logging.info('Проверка ответа от API начата')
 
     if not isinstance(response, dict) or response is None:
@@ -106,8 +106,7 @@ def check_response(
 def parse_status(
     homework: List[Dict[str, Union[int, str]]]
 ) -> str:
-    """
-    Извлекает из информации о конкретной домашней работе
+    """Извлекает из информации о конкретной домашней работе.
     статус этой работы
     """
     homework_name = homework['homework_name']
@@ -123,7 +122,7 @@ def parse_status(
 
 
 def check_tokens() -> bool:
-    """Проверяет доступность переменных окружения"""
+    """Проверяет доступность переменных окружения."""
     return all((
         PRACTICUM_TOKEN,
         TELEGRAM_TOKEN,
