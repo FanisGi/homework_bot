@@ -64,7 +64,7 @@ def get_api_answer(current_timestamp: int) -> Dict:
             f'Неверный ответ сервера {response} = '
             f'{response.status_code}'
         )
-    
+
     return response.json()
 
 
