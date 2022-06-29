@@ -18,10 +18,9 @@ python-telegram-bot 13.7
 
 ## Запуск проекта 
 
-1.В папку ".env" введите:
+1.Создайте в папке проекта файл ".env". Сохраните в ней:
 
-PRACTICUM_TOKEN = 'Личный токен от ЯП:  
-https://oauth.yandex.ru/authorize?response_type=token&client_id=1d0b9dd4d652455a9eb710d450ff456a '
+PRACTICUM_TOKEN = 'Личный токен от ЯП:'
 
 TELEGRAM_TOKEN = 'Можно получить в телеграм через @BotFather'
 

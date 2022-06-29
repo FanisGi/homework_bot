@@ -7,11 +7,9 @@ from typing import Dict, List
 
 import requests
 import telegram
-
 from dotenv import load_dotenv
-from exceptions import (
-    APIStatusCodeError, TelegramError
-)
+
+from exceptions import APIStatusCodeError, TelegramError
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -53,16 +51,23 @@ def get_api_answer(current_timestamp: int) -> Dict:
     params = {'from_date': timestamp}
 
     logging.info('Делаем запрос на Яндекс.Практикум')
-    response = requests.get(
-        ENDPOINT,
-        headers=HEADERS,
-        params=params
-    )
+
+    try:
+        response = requests.get(
+            ENDPOINT,
+            headers=HEADERS,
+            params=params
+        )
+
+    except Exception as exc:
+        raise APIStatusCodeError(
+            f'Неверный ответ сервера: {exc}'
+        )
 
     if response.status_code != HTTPStatus.OK:
         raise APIStatusCodeError(
-            f'Неверный ответ сервера {response} = '
-            f'{response.status_code}'
+            f'Неверный ответ сервера {ENDPOINT}. '
+            f'Параметры запроса: {params}'
         )
 
     return response.json()
@@ -74,12 +79,13 @@ def check_response(response: Dict) -> List:
 
     if not isinstance(response, dict) or response is None:
         raise TypeError(
-            f'Ответ от API не является словарём: response = {response}'
+            'Ответ от API не является словарём'
         )
 
-    if ((response.get('homeworks') is None) or (
-            response.get('current_date') is None
-    )):
+    response_homeworks = response.get('homeworks')
+    response_current_date = response.get('current_date')
+
+    if response_homeworks is None or response_current_date is None:
         raise KeyError(
             'Словарь ответа API не содержит ключей homeworks и/или '
             'current_date'
@@ -96,6 +102,11 @@ def check_response(response: Dict) -> List:
 
 def parse_status(homework: Dict) -> str:
     """Извлекает статус о конкретной домашней работе."""
+    if homework.get('homework_name') is None:
+        raise KeyError(
+            'Словарь ответа API не содержит ключa homework_name'
+        )
+
     homework_name = homework['homework_name']
 
     if homework.get('status') is None:
