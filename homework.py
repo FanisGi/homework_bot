@@ -105,12 +105,11 @@ def parse_status(homework: Dict) -> str:
 
     homework_status = homework['status']
 
-    try:
-        verdict = HOMEWORK_VERDICTS[homework_status]
-        return f'Изменился статус проверки работы "{homework_name}". {verdict}'
-
-    except KeyError:
+    if homework_status not in HOMEWORK_VERDICTS:
         raise KeyError('Недокументированный статус домашней работы')
+
+    verdict = HOMEWORK_VERDICTS[homework_status]
+    return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
 
 def check_tokens() -> bool:
