@@ -13,8 +13,8 @@ homework_bot - это телеграмм-бот, информирующий ст
 
 ## Стек технологий
 
-Python 3.7.9
-python-telegram-bot 13.7
+- Python 3.7.9
+- python-telegram-bot 13.7
 
 ## Запуск проекта 
 
